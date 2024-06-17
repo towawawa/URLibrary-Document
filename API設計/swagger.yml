@@ -1,0 +1,449 @@
+openapi: 3.1.0
+x-stoplight:
+  id: xxbvm62jwdujn
+info:
+  title: URLibrary
+  version: '1.0'
+  contact:
+    name: towa imamoto
+    email: imamoto0111@gmail.com
+servers:
+  - url: 'http://localhost:3000'
+tags:
+  - name: auth
+  - name: url
+paths:
+  /signin:
+    post:
+      summary: ログイン
+      operationId: post-signin
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+      x-stoplight:
+        id: sc2zae5avdxrc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  x-stoplight:
+                    id: 1eid6j6veunmi
+                password:
+                  type: string
+                  x-stoplight:
+                    id: 2olqgafdsbj8s
+            examples:
+              Example 1:
+                value:
+                  email: example@example.com
+                  password: P@ssW0rd
+      tags:
+        - auth
+  /signout:
+    delete:
+      summary: ログアウト
+      operationId: delete-signout
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+      x-stoplight:
+        id: fhmypztrxmord
+      tags:
+        - auth
+  /url-libraries:
+    get:
+      summary: URL一覧取得
+      tags:
+        - url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UrlLibrary'
+                  x-stoplight:
+                    id: rjhscromnbni4
+              examples:
+                Example 1:
+                  value:
+                    - id: 1
+                      url: 'https://example'
+                      title: TITLE!!
+                      memo: これはサンプル記事です
+                      hashTags:
+                        - id: 1
+                          name: '#example'
+                      genre:
+                        id: 1
+                        name: example_name
+                        imageUrl: 'https://example-url'
+                        mainColor: '#FFFFFF'
+      operationId: get-url-libraries
+      x-stoplight:
+        id: 524f8sa5utom1
+      description: ''
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: tagId
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: ASC or DESC
+        - schema:
+            type: integer
+          in: query
+          name: sortType
+          description: '追加順 = 1, '
+        - schema:
+            type: string
+          in: query
+          name: keyWord
+          description: 検索キーワード（部分一致）
+        - schema:
+            type: array
+            items:
+              type: integer
+          in: query
+          description: hash_tag_idの配列
+          name: 'hashTagIds[]'
+        - schema:
+            type: string
+          in: query
+          name: startCreatedAt
+          description: 登録日 開始日
+        - schema:
+            type: string
+          in: query
+          name: endCreatedAt
+          description: 登録日 終了日
+    post:
+      summary: URL登録
+      tags:
+        - url
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: post-url-libraries
+      x-stoplight:
+        id: 9zpsw62gj6vnh
+        description: ※hash_tagsにはidとnameが指定できます。idを指定しない場合、ハッシュタグが新規登録されます。
+      requestBody:
+        $ref: '#/components/requestBodies/UrlLibrary'
+      parameters: []
+  /me:
+    get:
+      summary: ログインユーザー取得
+      tags:
+        - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      operationId: get-me
+      x-stoplight:
+        id: dqacx08qtxft9
+  '/url-libraries/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    put:
+      summary: URL更新
+      tags:
+        - url
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: put-url-libraries-id
+      x-stoplight:
+        id: awmj4uifed3jz
+      requestBody:
+        $ref: '#/components/requestBodies/UrlLibrary'
+components:
+  schemas:
+    User:
+      title: User
+      x-stoplight:
+        id: fjadsopifjas
+      type: object
+      examples:
+        - id: 1
+          name: URL 太郎
+          email: sample@example.com
+          created_at: '2024-01-01 10:00:00'
+          updated_at: '2024-01-01 10:00:00'
+      required:
+        - id
+        - name
+        - email
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: 8l2tf2qbigtxp
+        name:
+          type: string
+          x-stoplight:
+            id: 3s92xbf78ql4q
+        email:
+          type: string
+          x-stoplight:
+            id: 53pscijgmxbhk
+        created_at:
+          type: string
+          x-stoplight:
+            id: mwdafoh3cmk8k
+        updated_at:
+          type: string
+          x-stoplight:
+            id: 4bfhmompwk2p6
+    Genre:
+      title: Genre
+      x-stoplight:
+        id: gwdxczftk36mb
+      type: object
+      examples:
+        - id: 1
+          name: example_name
+          imageUrl: 'https://example-url'
+          mainColor: '#FFFFFF'
+      required:
+        - id
+        - name
+        - mainColor
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: h1ymam9sh0lvl
+        name:
+          type: string
+          x-stoplight:
+            id: y9bvuy4j9cpfq
+        imageUrl:
+          type: string
+          x-stoplight:
+            id: hrtftaxjzlb1n
+        mainColor:
+          type: string
+          x-stoplight:
+            id: plgwohfgb639i
+    HashTag:
+      title: HashTag
+      x-stoplight:
+        id: i6zq3c1wvfr9t
+      type: object
+      examples:
+        - id: 1
+          name: '#example'
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: lz5uat7b8pcwh
+        name:
+          type: string
+          x-stoplight:
+            id: lksls4i88skz4
+    UrlLibrary:
+      title: UrlLibrary
+      x-stoplight:
+        id: vh6l1p5s0gp97
+      type: object
+      examples:
+        - id: 1
+          url: 'https://example'
+          title: TITLE!!
+          memo: これはサンプル記事です
+      required:
+        - id
+        - url
+        - title
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: shxvs6dzkcyu9
+        url:
+          type: string
+          x-stoplight:
+            id: 2mg7i1qvxrp0y
+        title:
+          type: string
+          x-stoplight:
+            id: ij4usjuckbn1t
+        memo:
+          type: string
+          x-stoplight:
+            id: 5zpzf8248v3qn
+        hasTags:
+          $ref: '#/components/schemas/HashTag'
+          x-stoplight:
+            id: 2bz8i0h7myqgb
+        Genre:
+          $ref: '#/components/schemas/Genre'
+          x-stoplight:
+            id: 9tm8yjw7ksb0x
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                x-stoplight:
+                  id: yipea5lrbu846
+              message:
+                type: string
+                x-stoplight:
+                  id: kgj5kr9enr7ej
+          examples:
+            Example 1:
+              value:
+                code: 200
+                message: OK
+    '201':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                x-stoplight:
+                  id: righ3rz7jz5js
+              message:
+                type: string
+                x-stoplight:
+                  id: 14q5clxhu6715
+              id:
+                type: number
+                x-stoplight:
+                  id: bujyoiujemjfj
+          examples:
+            Example 1:
+              value:
+                code: 201
+                message: 登録成功
+                id: 2
+    '404':
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                x-stoplight:
+                  id: pxegr35tccm4w
+              message:
+                type: string
+                x-stoplight:
+                  id: c07m8qjg0ugwu
+          examples:
+            Example 1:
+              value:
+                code: 404
+                message: 指定されたデータは存在しません。
+    '422':
+      description: バリデーションエラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                x-stoplight:
+                  id: hlppuifxudy6q
+              message:
+                type: string
+                x-stoplight:
+                  id: ayj1r8atz2lr1
+              errors:
+                x-stoplight:
+                  id: f4vdy4myvyxu3
+                type: array
+                items:
+                  x-stoplight:
+                    id: 4y066m4tobpfj
+                  type: object
+          examples:
+            Example 1:
+              value:
+                code: 0
+                message: 不正な入力値があります。
+                errors: []
+  requestBodies:
+    UrlLibrary:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - genre_id
+              - url
+              - title
+            properties:
+              genre_id:
+                type: integer
+                x-stoplight:
+                  id: 3bfbfx25md9kg
+              hash_tags:
+                type: array
+                x-stoplight:
+                  id: z2tyhoj6n2mmz
+                items:
+                  $ref: '#/components/schemas/HashTag'
+                  x-stoplight:
+                    id: n1ui6mx2xavhi
+              url:
+                type: string
+                x-stoplight:
+                  id: 6607nhs4536n3
+              title:
+                type: string
+                x-stoplight:
+                  id: jqg21d8am4kga
+              memo:
+                type: string
+                x-stoplight:
+                  id: hgdys45g3l2yw
+          examples:
+            Example 1:
+              value:
+                genre_id: 1
+                hash_tags:
+                  - id: 1
+                  - name: '#example'
+                url: 'https://example.com'
+                title: タイトル
+                memo: メモメモ
