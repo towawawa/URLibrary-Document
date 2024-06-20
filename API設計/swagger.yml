@@ -12,6 +12,8 @@ servers:
 tags:
   - name: auth
   - name: url
+  - name: genre
+  - name: hashTag
 paths:
   /signin:
     post:
@@ -126,6 +128,7 @@ paths:
           in: query
           name: endCreatedAt
           description: 登録日 終了日
+  /url-library:
     post:
       summary: URL登録
       tags:
@@ -135,7 +138,7 @@ paths:
           $ref: '#/components/responses/201'
         '422':
           $ref: '#/components/responses/422'
-      operationId: post-url-libraries
+      operationId: post-url-library
       x-stoplight:
         id: 9zpsw62gj6vnh
         description: ※hash_tagsにはidとnameが指定できます。idを指定しない場合、ハッシュタグが新規登録されます。
@@ -180,6 +183,96 @@ paths:
         id: awmj4uifed3jz
       requestBody:
         $ref: '#/components/requestBodies/UrlLibrary'
+  /hash-tags:
+    get:
+      summary: ハッシュタグ一覧取得
+      tags:
+        - hashTag
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HashTag'
+                  x-stoplight:
+                    id: 6567l0x7djiw3
+              examples:
+                Example 1:
+                  value:
+                    - id: 1
+                      name: '#example'
+                    - id: 2
+                      name: '#sample'
+      operationId: get-hash-tags
+      x-stoplight:
+        id: fzc31wrbuk5rj
+  /genres:
+    parameters: []
+    get:
+      summary: ジャンル一覧取得
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genre'
+                  x-stoplight:
+                    id: 8fnsp1kz18fom
+              examples:
+                Example 1:
+                  value:
+                    - id: 1
+                      name: example_name
+                      imageUrl: 'https://example-url'
+                      mainColor: '#FFFFFF'
+      operationId: get-hash-tags-id
+      x-stoplight:
+        id: e9e8805a0rikt
+      tags:
+        - genre
+    post:
+      summary: ジャンル登録
+      tags:
+        - genre
+      responses:
+        '200':
+          $ref: '#/components/responses/201'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: post-genres
+      x-stoplight:
+        id: thrh02vmz633d
+      requestBody:
+        $ref: '#/components/requestBodies/Genre'
+  '/genres/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: ジャンル更新
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: put-genres-id
+      x-stoplight:
+        id: 6oq5hwvoa31n6
+      requestBody:
+        $ref: '#/components/requestBodies/Genre'
+      tags:
+        - genre
 components:
   schemas:
     User:
@@ -447,3 +540,27 @@ components:
                 url: 'https://example.com'
                 title: タイトル
                 memo: メモメモ
+    Genre:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - image
+            properties:
+              name:
+                type: string
+                x-stoplight:
+                  id: 96lwp9lzt85if
+              image:
+                type: object
+                x-stoplight:
+                  id: p0hijotghazto
+                description: "画像ファイル\r\n"
+          examples:
+            Example 1:
+              value:
+                name: javascript
+                image:
+                  File: null
