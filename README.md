@@ -1,1 +1,2 @@
-画面設計：https://www.figma.com/design/xQP1xfB7P7Fj1DUVyHGlKE/URLibrary?node-id=0-1&t=HCLm95IV54VU3eND-0
+- 画面設計：https://www.figma.com/design/xQP1xfB7P7Fj1DUVyHGlKE/URLibrary?node-id=0-1&t=HCLm95IV54VU3eND-0
+- DB設計（仮）：https://lucid.app/lucidchart/8294c995-e954-4dbb-a171-b6bec2afbe6a/edit?viewport_loc=-1804%2C-394%2C2994%2C1405%2C0_0&invitationId=inv_e5df4878-d1ac-4890-8bca-6370b75864e1
